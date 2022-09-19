@@ -51,11 +51,10 @@ Shader "Custom/Texture"
             // Albedo comes from a texture tinted by color
             fixed4 c2 = tex2D (_SecondTex, IN.uv_SecondTex) * _Color;
 
-            fixed4 mainOutput = c2.rgba * (1.0 - (c1.a * _BlendPoint));
-            fixed4 combineOutput = c1.rgba * (c1.a * _BlendPoint);
-
-            o.Albedo = mainOutput.rgb + combineOutput.rgb;
-            o.Alpha = mainOutput.a + combineOutput.a;
+            fixed4 outputTex1 = c1.rgba * (1.0 - (c2.a * _BlendPoint));
+            fixed4 outputTex2 = c2.rgba * (c2.a * _BlendPoint);
+            o.Albedo = outputTex1.rgb + outputTex2.rgb;
+            o.Alpha = outputTex1.a + outputTex2.a;
 
             // Metallic and smoothness come from slider variables
             o.Metallic = _Metallic;
